@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!--TOPBAR-->
     <header class="topbar">
         <!--BRAND NAME AND LOGO-->
         <div class="brand">
@@ -33,6 +35,30 @@
             </svg>
         </button>
     </header>
+
+    <!--HERO SECTION-->
+    <section class="hero">
+        <div class="board">
+            <!--LEFT SIDE OF BOARD SECTION-->
+            <div class="board_left">
+                <div>
+                    <div class="board_label">Parking Availibility</div>
+                    <div class="board_number"><span id="slotAvailability">0</span> <span>slots available</span></div>
+                </div>
+            </div>
+            <!--CLOCK PRESENT AT MIDDLE OF THE BOARD SECTION-->
+            <div class="board_clock" id="clock">00:00:00</div>
+            <!--RIGHT SIDE OF BOARD SECTION-->
+            <div class="board_right">
+                <div class="slot_occupied"></div><div class="number" id="slotOccupied">0</div>
+                <div class="right_board_label">Occupied</div>
+                <div class="slot_occupancy"></div><div class="number" id="slotOccupancy">0</div>
+                <div class="right_board_label">Occupancy</div>
+            </div>
+        </div>
+    </section>
+        
+      
 
     
     
