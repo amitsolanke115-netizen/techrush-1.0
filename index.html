@@ -8,7 +8,7 @@
 </head>
 <body>
 
-    <!--TOPBAR-->
+<!--TOPBAR-->
     <header class="topbar">
         <!--BRAND NAME AND LOGO-->
         <div class="brand">
@@ -36,7 +36,7 @@
         </button>
     </header>
 
-    <!--HERO SECTION-->
+<!--HERO SECTION-->
     <section class="hero">
         <div class="board">
             <!--LEFT SIDE OF BOARD SECTION-->
@@ -60,7 +60,7 @@
         <div class="floor_tabs" id="floorTabs"></div>
     </section>
 
-    <!--MAIN LAYOUT SECTION-->
+<!--MAIN LAYOUT SECTION-->
     <main class="layout">
         <section class="panel">
             <div class="panel_head">
@@ -80,7 +80,7 @@
             </div>
         </section>
 
-        <!--ANALYTICS SECTION-->
+<!--ANALYTICS SECTION-->
         <aside class="panel">
             <div class="panel_head"><h2>Analytics</h2></div>
 
@@ -104,9 +104,30 @@
                 <div class="stat_EV"><div class="number" id="statEV">0</div><div class="label">EV free</div></div>
             </div>
 
-        </aside>
+            <!--SEPARATING ANALYTICS SECTION FROM FEE SECTION-->
+            <hr class="div">
 
-            
+<!--FEE SECTION-->
+            <div class="panel_head" style="margin-bottom:10px;"><h2 style="font-size:15px;">Fee estimator</h2></div>
+            <div class="fee_row">
+            <!--VEHICLE SELECTION DROPDOWN ALONG WITH AMOUNT OF PARKING CHARGES-->
+                <label>Vehicle type
+                    <select id="vehicleFee" class="pill" style="margin-top:4px;">
+                        <option value="car">Car — ₹20/hr</option>
+                        <option value="bike">Two-wheeler — ₹10/hr</option>
+                        <option value="ev">EV — ₹20/hr + ₹10/hr charging</option>
+                        <option value="accessible">Accessible — ₹20/hr (1st hr free)</option>
+                    </select>
+                </label>
+                <label>Duration <span id="hoursLable" class="mono">1 hr</span>
+                    <input type="range" id="feeHours" min="1" max="12" value="1">
+                </label>
+                <div class="total_fee">
+                    <span style="font-size:12px;color:var(--text-muted);">Estimated fee</span>
+                    <span class="amt">₹<span id="feeAmount">20</span></span>
+                </div>
+            </div>
+        </aside>            
     </main>
         
       
