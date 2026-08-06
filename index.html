@@ -79,8 +79,34 @@
                 <div class="legend_item"><span class="ev_badge" style="position:static;width:14px;height:14px;font-size:9px;">⚡</span> EV charging</div>
             </div>
         </section>
-        
-        
+
+        <!--ANALYTICS SECTION-->
+        <aside class="panel">
+            <div class="panel_head"><h2>Analytics</h2></div>
+
+            <!--% OCCUPANCY OF PARKING-->
+            <div class="panel_wrap">
+                <svg class="donut_svg" viewBox="0 0 120 120">
+                    <circle class="donut_track" cx="60" cy="60" r="50"></circle>
+                    <circle class="donut_fill" id="donutFill" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)"></circle>
+                </svg>
+                <div>
+                    <div class="donut_center" id="donutPercentage">0%</div>
+                    <div class="donut_label">Floor Occupancy</div>
+                </div>     
+            </div>
+
+            <!--SLOTS STATISTICS (AVAILABLE, OCCUPIED, TOTAL, SLOTS AVAILABLE FOR EV)-->
+            <div class="stat_grid">
+                <div class="stat_available"><div class="numbar" id="statAvailable">0</div><div class="label">Available</div></div>
+                <div class="stat_Occupied"><div class="number" id="statOccupied">0</div><div class="label">Occupied</div></div>
+                <div class="stat_Total"><div class="number" id="statTotal">0</div><div class="label">Total slots</div></div>
+                <div class="stat_EV"><div class="number" id="statEV">0</div><div class="label">EV free</div></div>
+            </div>
+
+        </aside>
+
+            
     </main>
         
       
