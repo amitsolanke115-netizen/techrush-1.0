@@ -8,6 +8,7 @@
 </head>
 <body>
 
+    
 <!--TOPBAR-->
     <header class="topbar">
         <!--BRAND NAME AND LOGO-->
@@ -36,6 +37,7 @@
         </button>
     </header>
 
+    
 <!--HERO SECTION-->
     <section class="hero">
         <div class="board">
@@ -60,6 +62,7 @@
         <div class="floor_tabs" id="floorTabs"></div>
     </section>
 
+    
 <!--MAIN LAYOUT SECTION-->
     <main class="layout">
         <section class="panel">
@@ -80,6 +83,7 @@
             </div>
         </section>
 
+        
 <!--ANALYTICS SECTION-->
         <aside class="panel">
             <div class="panel_head"><h2>Analytics</h2></div>
@@ -107,6 +111,7 @@
             <!--SEPARATING ANALYTICS SECTION FROM FEE SECTION-->
             <hr class="div">
 
+            
 <!--FEE SECTION-->
             <div class="panel_head" style="margin-bottom:10px;"><h2 style="font-size:15px;">Fee estimator</h2></div>
             <div class="fee_row">
@@ -129,10 +134,27 @@
             </div>
         </aside>            
     </main>
-        
-      
 
     
-    
+<!--RESERVATION POPUP-->
+    <div class="modal_overlay" id="modalOverlay">
+        <div class="modal">
+            <h3 id="modalSlotId">Reserve G-014</h3>
+            <div class="modal_row"><span>Vehicle type</span><span id="modalType" class="mono">Car</span></div>
+            <div class="modal_row"><span>Floor</span><span id="modalFloor" class="mono">Ground</span></div>
+            <div class="modal_row"><span>Rate</span><span id="modalRate" class="mono">₹20/hr</span></div>
+            <div class="modal_actions">
+                <button class="cancel_button" id="cancelButton">Cancel</button>
+                <button class="confirm_button" id="confirmButton">Confirm reservation</button>
+            </div>
+        </div>
+    </div>
+
+
+<!--NOTIFICATION POPUP WHEN ANY SLOT RESERVED OR FREED-->
+    <div class="toast-container" id="toastContainer"></div>
+  
+  
+    <script src="script.js"></script>    
 </body>
 </html>
