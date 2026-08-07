@@ -81,3 +81,91 @@
         return { total, available, occupied, reserved, evFree, rate };
     }
 
+
+    /*UI RENDERING ENGINES*/
+    
+    /*RENSER THE FLOOR SELECTION BUTTON*/
+    function renderFloorTabs() {
+        const wrap = $('#floorTabs');
+        wrap.innerHTML = '';
+        
+        state.floors.forEach(f => {
+            const stats = computeStats(state.slots[f.id]);
+            const isActive = f.id === state.activeFloor;
+            
+            const tab = el('button', `floor-tab ${isActive ? 'active' : ''}`);
+            tab.style.cssText = `
+                background: ${isActive ? 'var(--primary)' : 'var(--bg-panel)'};
+                color: ${isActive ? '#fff' : 'var(--text)'};
+                border: 1px solid ${isActive ? 'var(--primary)' : 'var(--border)'};
+                border-radius: 8px; padding: 12px 18px; font-weight: bold;
+                display: flex; flex-direction: column; align-items: center; transition: 0.2s;
+            `;
+            
+            tab.innerHTML = `
+                <span style="font-family:'Outfit'; font-size:18px;">${f.id}</span>
+                <span style="font-size:10px; opacity:0.8;">${stats.available} Free</span>
+            `;
+            
+            tab.addEventListener('click', () => { 
+                state.activeFloor = f.id; 
+                renderAll(); 
+            });
+            wrap.appendChild(tab);
+        });
+    }
+
+    /*INJECT DYNAMIC CSS FOR THE STAGGER ANIMATION*/
+    const styleSheet = document.createElement("style");
+    styleSheet.innerText = `
+        @keyframes popIn {
+            0% { opacity: 0; transform: scale(0.8) translateY(10px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+    `;
+    document.head.appendChild(styleSheet);
+
+    /*RENDER THE ACTUAL PARTKING SLOT GRID*/
+    function renderSlotGrid() {
+        const floor = state.floors.find(f => f.id === state.activeFloor);
+        $('#floorTitle').textContent = floor.label;
+        const grid = $('#slotGrid');
+        grid.innerHTML = '';
+
+        const term = state.searchTerm.trim().toLowerCase();
+        const list = state.slots[floor.id];
+        let visibleCount = 0;
+
+        list.forEach((slot) => {
+            const matchesVehicle = state.vehicleFilter === 'all' || slot.type === state.vehicleFilter;
+            const matchesSearch = !term || slot.id.toLowerCase().includes(term);
+            
+            if (!matchesVehicle || !matchesSearch) return;
+
+            const card = el('div', `slot ${slot.status}`);
+            card.dataset.id = slot.id;
+            
+            /*STAGGER ANIMATION BASED ON INDEX*/
+            card.style.animation = `popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`;
+            card.style.animationDelay = `${visibleCount * 0.015}s`;
+            card.style.opacity = '0';
+            visibleCount++;
+
+            card.innerHTML = `
+                <div class="sensor_dot" data-dot="${slot.id}"></div>
+                <div class="slot_id">${slot.id}</div>
+                <div class="slot_type">${ICONS[slot.type]} ${TYPE_LABEL[slot.type]}</div>
+                ${slot.ev ? '<div class="ev_badge" title="EV Charging Available">⚡</div>' : ''}
+            `;
+
+            if (slot.status === 'available') {
+                card.addEventListener('click', () => openReserveModal(slot));
+            }
+            grid.appendChild(card);
+        });
+
+        if (visibleCount === 0) {
+            grid.innerHTML = `<div style="grid-column: 1 / -1; text-align:center; padding: 40px; color: var(--text-muted);">No slots match your criteria.</div>`;
+        }
+    }
+
