@@ -270,7 +270,80 @@
 
 
 
+    /* ---------- Analytics Panel ---------- */
+    .panel_wrap { display: flex; align-items: center; gap: 20px; }
+    .donut_svg { width: 100px; height: 100px; }
+    .donut_track { fill: none; stroke: var(--bg-panel-2); stroke-width: 10; }
+    .donut_fill { fill: none; stroke: var(--primary); stroke-width: 10; stroke-linecap: round; transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+    .donut_center { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 22px; color: var(--text); }
+    .donut_label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
 
+    .stat_grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+    .stat_grid > div { background: var(--bg-panel-2); border: 1px solid var(--border-soft); border-radius: 12px; padding: 14px; }
+    .stat_grid .numbar, .stat_grid .number { font-family: 'Space Mono', monospace; font-size: 22px; font-weight: 700; }
+    .stat_grid .label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 1px; margin-top: 4px; }
+    .stat_available .numbar { color: var(--green); }
+    .stat_Occupied .number { color: var(--red); }
+    .stat_EV .number { color: var(--blue); }
+
+    hr.div { border: none; border-top: 1px solid var(--border-soft); margin: 24px 0; }
+
+    .fee_row label { font-size: 12px; font-weight: 500; color: var(--text-muted); display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+    .fee_row select { width: 100%; margin-top: 4px; }
+    .fee_row input[type="range"] { width: 100%; accent-color: var(--primary); }
+    .total_fee {
+    background: var(--bg-panel-2); border: 1px dashed var(--primary);
+    border-radius: 12px; padding: 16px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .total_fee .amt { font-family: 'Space Mono', monospace; font-size: 24px; font-weight: 700; color: var(--primary); }
+
+    /* ---------- Modals ---------- */
+    .modal_overlay {
+    position: fixed; inset: 0; background: rgba(11, 17, 32, 0.8);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center; z-index: 100;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+    }
+    .modal_overlay.show { opacity: 1; pointer-events: auto; }
+    .modal {
+    background: var(--bg-panel); border: 1px solid var(--border); border-radius: 16px;
+    padding: 30px; width: 340px; box-shadow: var(--shadow);
+    transform: scale(0.95) translateY(10px); transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .modal_overlay.show .modal { transform: scale(1) translateY(0); }
+    .modal h3 { font-size: 22px; color: var(--primary); margin-bottom: 6px; }
+    .modal .sub { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    .modal_row { display: flex; justify-content: space-between; font-size: 14px; padding: 10px 0; border-bottom: 1px solid var(--border-soft); }
+    .modal_actions { display: flex; gap: 12px; margin-top: 24px; }
+
+    .cancel_button, .confirm_button {
+    flex: 1; padding: 12px; border-radius: 10px; font-weight: 600; font-size: 14px;
+    transition: all 0.2s ease;
+    }
+    .cancel_button { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .cancel_button:hover { background: var(--bg-panel-2); }
+    .confirm_button { background: var(--primary); color: #fff; box-shadow: 0 4px 12px var(--primary-dim); }
+    .confirm_button:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+    /* ---------- Toasts ---------- */
+    .toast-container { position: fixed; bottom: 24px; right: 24px; display: flex; flex-direction: column; gap: 12px; z-index: 150; }
+    .toast {
+    background: var(--bg-panel); border: 1px solid var(--border); border-left: 4px solid var(--green);
+    border-radius: 10px; padding: 14px 18px; font-size: 13px; font-weight: 500; box-shadow: var(--shadow);
+    animation: toastIn 0.3s cubic-bezier(0.4, 0, 0.2, 1), toastOut 0.3s ease 3.5s forwards;
+    min-width: 240px;
+    }
+    .toast.warn { border-left-color: var(--red); }
+    .toast.info { border-left-color: var(--amber); }
+
+    @keyframes toastIn { from { opacity: 0; transform: translateX(30px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes toastOut { to { opacity: 0; transform: translateX(30px); } }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
 
 
 
