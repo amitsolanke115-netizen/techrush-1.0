@@ -258,4 +258,68 @@
     }
     setInterval(tickClock, 1000);
     tickClock();
+    /*MODAL & NOTIFICATION SYSTEMS*/
+    function openReserveModal(slot) {
+        state.pendingSlot = slot;
+        $('#modalSlotId').textContent = `Reserve ${slot.id}`;
+        $('#modalType').textContent = TYPE_LABEL[slot.type];
+        
+        const floor = state.floors.find(f => f.id === slot.floor);
+        $('#modalFloor').textContent = floor.label;
+        
+        /*PRICING FOR PREMIUM PARKING SECTION*/
+        const isPremium = slot.floor === 'B1';
+        let hourlyRate = RATE[slot.type];
+        
+        if (isPremium) hourlyRate += 30; 
+        
+        let rateString = `₹${hourlyRate}/hr`;
+        if (isPremium) rateString += ' (Premium)';
+        if (slot.type === 'ev') rateString += ' + ₹10/hr charging';
+        if (slot.type === 'accessible') rateString = `₹${hourlyRate}/hr (1st hr free)`;
+        
+        $('#modalRate').textContent = rateString;
+        $('#modalOverlay').classList.add('show');
+    }
+
+    function closeModal() {
+        $('#modalOverlay').classList.remove('show');
+        state.pendingSlot = null;
+    }
+
+    $('#cancelButton').addEventListener('click', closeModal);
+    $('#modalOverlay').addEventListener('click', e => { if (e.target.id === 'modalOverlay') closeModal(); });
+    
+    $('#confirmButton').addEventListener('click', () => {
+        const slot = state.pendingSlot;
+        if (!slot) return;
+        
+        slot.status = 'reserved'; 
+        closeModal();
+        
+        const card = document.querySelector(`.slot[data-id="${slot.id}"]`);
+        if (card) {
+            card.className = `slot ${slot.status}`;
+            const clone = card.cloneNode(true);
+            card.parentNode.replaceChild(clone, card);
+        }
+
+        renderFloorTabs();
+        renderAnalytics();
+        renderBoard();
+        
+        showToast(`Success! ${slot.id} reserved for 15 minutes.`, 'info');
+    });
+
+    function showToast(message, kind) {
+        const t = el('div', `toast ${kind || ''}`);
+        t.textContent = message;
+        $('#toastContainer').appendChild(t);
+        setTimeout(() => t.remove(), 3800);
+    }
+
+
+
+
+
 
