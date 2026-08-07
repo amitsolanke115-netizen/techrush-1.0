@@ -223,3 +223,39 @@
         document.documentElement.setAttribute('theme', state.theme);
         $('#themeToggle').innerHTML = state.theme === 'dark' ? SUN_SVG : MOON_SVG;
     });
+
+    /*TOTAL PARKING CHARGES ESTIMATOR*/
+    function updateFee() {
+        const vehicle = $('#vehicleFee').value;
+        const hours = parseInt($('#feeHours').value, 10);
+        
+        $('#hoursLable').textContent = `${hours} hr${hours > 1 ? 's' : ''}`;
+        
+        let total = RATE[vehicle] * hours; 
+        
+        if (vehicle === 'ev') total += (10 * hours);
+        if (vehicle === 'accessible') total = RATE.accessible * Math.max(0, hours - 1); 
+        
+        $('#feeAmount').textContent = total;
+
+        let disclaimer = document.getElementById('premiumDisclaimer');
+        if (!disclaimer) {
+            disclaimer = el('div');
+            disclaimer.id = 'premiumDisclaimer';
+            disclaimer.style.cssText = 'font-size: 10px; color: var(--amber); margin-top: 8px; text-align: right;';
+            disclaimer.textContent = '* VIP Basement (B1) adds ₹30/hr surcharge';
+            document.querySelector('.total_fee').parentNode.appendChild(disclaimer);
+        }
+    }
+    
+    $('#vehicleFee').addEventListener('change', updateFee);
+    $('#feeHours').addEventListener('input', updateFee);
+
+    //LIVE DIGITAL CLOCK LOOP
+    function tickClock() {
+        const now = new Date();
+        $('#clock').textContent = now.toLocaleTimeString('en-IN', { hour12: false });
+    }
+    setInterval(tickClock, 1000);
+    tickClock();
+
