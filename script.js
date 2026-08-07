@@ -169,3 +169,57 @@
         }
     }
 
+
+    /*UPDATE SIDEBAR ANALYTICS & DONUT CHART BAR*/
+    function renderAnalytics() {
+        const floorStats = computeStats(state.slots[state.activeFloor]);
+        
+        $('#statAvailable').textContent = floorStats.available;
+        $('#statOccupied').textContent = floorStats.occupied;
+        $('#statTotal').textContent = floorStats.total;
+        $('#statEV').textContent = floorStats.evFree;
+
+        //DONUT CHART MATH
+        const circumference = 314.16; // 2 * pi * r (r=50)
+        const offset = circumference * (1 - floorStats.rate / 100);
+        $('#donutFill').style.strokeDashoffset = offset.toFixed(2);
+        $('#donutPercentage').textContent = floorStats.rate + '%';
+    }
+
+    /*UPDATE THE MAIN TOP HERO BOARD*/
+    function renderBoard() {
+        const all = allSlotsFlat();
+        const stats = computeStats(all);
+        
+        $('#slotAvailability').textContent = stats.available;
+        $('#slotOccupied').textContent = stats.occupied + stats.reserved;
+        $('#slotOccupancy').textContent = stats.rate + '%';
+    }
+
+    function renderAll() {
+        renderFloorTabs();
+        renderSlotGrid();
+        renderAnalytics();
+        renderBoard();
+    }
+
+    /*INTERACTIVITY (FILTERS, CLOCK, THEME)*/
+    $('#searchInput').addEventListener('input', e => {
+        state.searchTerm = e.target.value;
+        renderSlotGrid();
+    });
+
+    $('#vehicleFilter').addEventListener('change', e => {
+        state.vehicleFilter = e.target.value;
+        renderSlotGrid();
+    });
+
+    // THEME SETTINGS
+    const SUN_SVG = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+    const MOON_SVG = '<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>';
+    
+    $('#themeToggle').addEventListener('click', () => {
+        state.theme = state.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.setAttribute('theme', state.theme);
+        $('#themeToggle').innerHTML = state.theme === 'dark' ? SUN_SVG : MOON_SVG;
+    });
