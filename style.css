@@ -130,6 +130,98 @@
 
 
 
+     /*HERO & DIGITAL DASHBOARD*/
+    .hero {
+    padding: 26px 28px 10px;
+    background: var(--stripe);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.3s ease;
+    }
+    .board {
+    background: var(--bg-panel-2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px 32px;
+    box-shadow: var(--shadow);
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+    flex-wrap: wrap;
+    transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .board_left { display: flex; flex-direction: column; gap: 4px; }
+    .board_label { 
+    font-family: 'Space Mono', monospace; 
+    font-size: 12px; 
+    letter-spacing: 2px; 
+    color: var(--green); 
+    text-transform: uppercase; 
+    }
+    .board_number {
+    font-family: 'Outfit', sans-serif; 
+    font-weight: 700; 
+    font-size: 56px; 
+    line-height: 1;
+    color: var(--text);
+    text-shadow: 0 0 20px var(--green-dim);
+    }
+    .board_number span:last-child { 
+    font-size: 14px; 
+    font-weight: 500; 
+    color: var(--text-muted); 
+    text-shadow: none; 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    }
+    .board_clock {
+    font-family: 'Space Mono', monospace; 
+    color: var(--primary); 
+    font-size: 26px;
+    font-weight: 700;
+    text-shadow: 0 0 15px var(--primary-dim);
+    }
+    .board_right { 
+    display: grid; 
+    grid-template-rows: auto auto; 
+    grid-auto-flow: column; 
+    column-gap: 32px; 
+    row-gap: 4px;
+    text-align: right; 
+    }
+    .slot_occupied, .slot_occupancy { 
+    display: none; 
+    }
+    .board_right .number { 
+    font-family: 'Space Mono', monospace; 
+    font-size: 28px;
+    font-weight: bold; 
+    line-height: 1;
+    color: var(--text);
+    }
+    .board_right .label { 
+    font-family: 'Plus Jakarta Sans', sans-serif; 
+    font-size: 11px; 
+    color: var(--text-muted); 
+    letter-spacing: 1px; 
+    text-transform: uppercase; 
+    font-weight: 600;
+    }
+    #slotOccupied { 
+    color: var(--red); 
+    text-shadow: 0 0 15px rgba(244, 63, 94, 0.4); 
+    }
+    #slotOccupancy { 
+    color: var(--primary); 
+    text-shadow: 0 0 15px rgba(6, 182, 212, 0.4); 
+    }
+    .floor_tabs { display: flex; gap: 12px; padding: 20px 0 10px; flex-wrap: wrap; }
+
+
+
+
+
+
+
+
 
 
 
