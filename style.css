@@ -85,6 +85,52 @@
     border: none; 
     }
 
+   
+    /*TOP NAVIGATION*/
+    .topbar {
+    position: sticky; top: 0; z-index: 40;
+    display: flex; align-items: center; gap: 18px;
+    padding: 14px 28px;
+    background: rgba(30, 41, 59, 0.7);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    }
+    :root[theme="light"] .topbar { background: rgba(255, 255, 255, 0.7); }
+
+    .brand { display: flex; align-items: center; gap: 10px; margin-right: auto; }
+    .brand_logo {
+     width: 36px; height: 36px; border-radius: 8px;
+     background: var(--primary); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 22px;
+    box-shadow: 0 0 0 3px var(--primary-dim);
+    }
+    .brand-name { font-size: 20px; font-weight: 700; letter-spacing: 0.05em; font-family: 'Outfit', sans-serif;}
+    .brand-name span { color: var(--primary); }
+
+    .topbar > div:nth-child(2) {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--bg-panel-2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 12px; min-width: 220px;
+    }
+    #searchInput {
+    border: none; background: transparent; outline: none; color: var(--text);
+    font-family: 'Space Mono', monospace; font-size: 13px; width: 100%;
+    }
+    #searchInput::placeholder { color: var(--text-faint); }
+    .pill, .icon-button {
+    background: var(--bg-panel-2); border: 1px solid var(--border);
+    color: var(--text); border-radius: 8px; padding: 8px 12px;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px; font-weight: 500;
+    }
+    .icon-button { display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; padding: 0; }
+    .icon-button:hover, .pill:hover { border-color: var(--primary); color: var(--primary); }
+
+
+
+
 
 
 
