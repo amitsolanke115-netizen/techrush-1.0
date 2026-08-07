@@ -31,3 +31,53 @@
         }
         return Object.keys(weights)[0];
     }
+
+    /*GENERATES UNIQUE PARKING SLOTS FOR EACH FLOOR*/
+    function makeFloorSlots(floor) {
+        const slots = [];
+        for (let i = 1; i <= floor.count; i++) {
+            const type = pick({ car: 0.60, bike: 0.20, ev: 0.12, accessible: 0.08 });
+            let status = pick({ occupied: 0.55, available: 0.38, reserved: 0.07 });
+            slots.push({
+                id: `${floor.id}-${String(i).padStart(3, '0')}`,
+                floor: floor.id,
+                type: type,
+                status: status,
+                ev: type === 'ev'
+            });
+        }
+        return slots;
+    }
+
+    /*CENTRAL APPLICATION STATE*/
+    const state = {
+        floors: FLOORS,
+        slots: {},
+        activeFloor: FLOORS[0].id,
+        vehicleFilter: 'all',
+        searchTerm: '',
+        pendingSlot: null,
+        theme: 'dark'
+    };
+    
+    /*INITIALISES DATA*/
+    FLOORS.forEach(f => { state.slots[f.id] = makeFloorSlots(f); });
+    
+    /*DOM HELPERS & STAT CALCULATION*/
+    const $ = sel => document.querySelector(sel);
+    const el = (tag, cls) => { const e = document.createElement(tag); if (cls) e.className = cls; return e; };
+
+    function allSlotsFlat() {
+        return state.floors.flatMap(f => state.slots[f.id]);
+    }
+
+    function computeStats(list) {
+        const total = list.length;
+        const available = list.filter(s => s.status === 'available').length;
+        const occupied = list.filter(s => s.status === 'occupied').length;
+        const reserved = total - available - occupied;
+        const evFree = list.filter(s => s.ev && s.status === 'available').length;
+        const rate = total ? Math.round(((occupied + reserved) / total) * 100) : 0;
+        return { total, available, occupied, reserved, evFree, rate };
+    }
+
