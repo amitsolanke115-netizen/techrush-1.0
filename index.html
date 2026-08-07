@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en" theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MallPark - Smart Mall Parking Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    
+<!--TOPBAR-->
+    <header class="topbar">
+        <!--BRAND NAME AND LOGO-->
+        <div class="brand">
+            <div class="brand_logo">P</div>
+            <div class="brand-name">MALL<span>PARK</span></div>
+        </div>
+        <!--SEARCH BAR-->
+        <div>
+            <svg width="14" height="10" fill="none" stroke-width="2" stroke="currentColor" viewBox="0 0 24 24"> <circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input id="searchInput" type="text" placeholder="Search for slot e.g. G-014">
+        </div>
+        <!--VEHICLE FILTER-->
+        <select id="vehicleFilter" class="pill">
+            <option value="all">All Vehicles</option>
+            <option value="car">Car</option>
+            <option value="bike">Bike</option>
+            <option value="ev">EV</option>
+        </select>
+        <!--THEME BUTTON-->
+        <button class="icon-button" id="themeToggle" title="Theme">
+            <svg id="themeIcon" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+            </svg>
+        </button>
+    </header>
+
+    
+<!--HERO SECTION-->
+    <section class="hero">
+        <div class="board">
+            <!--LEFT SIDE OF BOARD SECTION-->
+            <div class="board_left">
+                <div>
+                    <div class="board_label">Parking Availibility</div>
+                    <div class="board_number"><span id="slotAvailability">0</span> <span>slots available</span></div>
+                </div>
+            </div>
+            <!--CLOCK PRESENT AT MIDDLE OF THE BOARD SECTION-->
+            <div class="board_clock" id="clock">00:00:00</div>
+            <!--RIGHT SIDE OF BOARD SECTION-->
+            <div class="board_right">
+                <div class="slot_occupied"></div><div class="number" id="slotOccupied">0</div>
+                <div class="right_board_label">Occupied</div>
+                <div class="slot_occupancy"></div><div class="number" id="slotOccupancy">0%</div>
+                <div class="right_board_label">Occupancy</div>
+            </div>
+        </div>
+        <!--TABS FOR SWITCHING FLOOR-->
+        <div class="floor_tabs" id="floorTabs"></div>
+    </section>
+
+    
+<!--MAIN LAYOUT SECTION-->
+    <main class="layout">
+        <section class="panel">
+            <div class="panel_head">
+                <div>
+                    <h2 id="floorTitle">Floor</h2>
+                    <div class="booking_instruct" id="bookingInstruct">Tap an available slot to book or reserve it.</div>
+                </div>
+            </div>
+            <!--FOR SHOWING PARKING SLOTS-->
+            <div class="slot_grid" id="slotGrid"></div>
+            <!--LEGEND DOT AND SYMBOL MEANING-->
+            <div class="legend">
+                <div class="legend_item"><span class="legend_dot" style="background:var(--green)"></span> Available</div>
+                <div class="legend_item"><span class="legend_dot" style="background:var(--red)"></span> Occupied</div>
+                <div class="legend_item"><span class="legend_dot" style="background:var(--amber)"></span> Reserved</div>
+                <div class="legend_item"><span class="ev_badge" style="position:static;width:14px;height:14px;font-size:9px;">⚡</span> EV charging</div>
+            </div>
+        </section>
+
+        
+<!--ANALYTICS SECTION-->
+        <aside class="panel">
+            <div class="panel_head"><h2>Analytics</h2></div>
+
+            <!--% OCCUPANCY OF PARKING-->
+            <div class="panel_wrap">
+                <svg class="donut_svg" viewBox="0 0 120 120">
+                    <circle class="donut_track" cx="60" cy="60" r="50"></circle>
+                    <circle class="donut_fill" id="donutFill" cx="60" cy="60" r="50" stroke-dasharray="314.16" stroke-dashoffset="314.16" transform="rotate(-90 60 60)"></circle>
+                </svg>
+                <div>
+                    <div class="donut_center" id="donutPercentage">0%</div>
+                    <div class="donut_label">Floor Occupancy</div>
+                </div>     
+            </div>
+
+            <!--SLOTS STATISTICS (AVAILABLE, OCCUPIED, TOTAL, SLOTS AVAILABLE FOR EV)-->
+            <div class="stat_grid">
+                <div class="stat_available"><div class="numbar" id="statAvailable">0</div><div class="label">Available</div></div>
+                <div class="stat_Occupied"><div class="number" id="statOccupied">0</div><div class="label">Occupied</div></div>
+                <div class="stat_Total"><div class="number" id="statTotal">0</div><div class="label">Total slots</div></div>
+                <div class="stat_EV"><div class="number" id="statEV">0</div><div class="label">EV free</div></div>
+            </div>
+
+            <!--SEPARATING ANALYTICS SECTION FROM FEE SECTION-->
+            <hr class="div">
+
+            
+<!--FEE SECTION-->
+            <div class="panel_head" style="margin-bottom:10px;"><h2 style="font-size:15px;">Fee estimator</h2></div>
+            <div class="fee_row">
+            <!--VEHICLE SELECTION DROPDOWN ALONG WITH AMOUNT OF PARKING CHARGES-->
+                <label>Vehicle type
+                    <select id="vehicleFee" class="pill" style="margin-top:4px;">
+                        <option value="car">Car — ₹20/hr</option>
+                        <option value="bike">Two-wheeler — ₹10/hr</option>
+                        <option value="ev">EV — ₹20/hr + ₹10/hr charging</option>
+                        <option value="accessible">Accessible — ₹20/hr (1st hr free)</option>
+                    </select>
+                </label>
+                <label>Duration <span id="hoursLable" class="mono">1 hr</span>
+                    <input type="range" id="feeHours" min="1" max="12" value="1">
+                </label>
+                <div class="total_fee">
+                    <span style="font-size:12px;color:var(--text-muted);">Estimated fee</span>
+                    <span class="amt">₹<span id="feeAmount">20</span></span>
+                </div>
+            </div>
+        </aside>            
+    </main>
+
+    
+<!--RESERVATION POPUP-->
+    <div class="modal_overlay" id="modalOverlay">
+        <div class="modal">
+            <h3 id="modalSlotId">Reserve G-014</h3>
+            <div class="modal_row"><span>Vehicle type</span><span id="modalType" class="mono">Car</span></div>
+            <div class="modal_row"><span>Floor</span><span id="modalFloor" class="mono">Ground</span></div>
+            <div class="modal_row"><span>Rate</span><span id="modalRate" class="mono">₹20/hr</span></div>
+            <div class="modal_actions">
+                <button class="cancel_button" id="cancelButton">Cancel</button>
+                <button class="confirm_button" id="confirmButton">Confirm reservation</button>
+            </div>
+        </div>
+    </div>
+
+
+<!--NOTIFICATION POPUP WHEN ANY SLOT RESERVED OR FREED-->
+    <div class="toast-container" id="toastContainer"></div>
+  
+  
+    <script src="script.js"></script>    
+</body>
+</html>
