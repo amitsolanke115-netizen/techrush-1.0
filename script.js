@@ -321,5 +321,55 @@
 
 
 
+    /*LIVE DATA SIMULATOR (Stable Screen Update)*/
+    function simulateLiveUpdate() {
+        const changesCount = 1 + Math.floor(Math.random() * 2);
+        
+        for (let i = 0; i < changesCount; i++) {
+            const floor = state.floors[Math.floor(Math.random() * state.floors.length)];
+            const list = state.slots[floor.id];
+            
+            const flippable = list.filter(s => s.status !== 'reserved');
+            if (!flippable.length) continue;
+            
+            const slot = flippable[Math.floor(Math.random() * flippable.length)];
+            const wasAvailable = slot.status === 'available';
+            
+            slot.status = wasAvailable ? 'occupied' : 'available';
+
+            if (slot.floor === state.activeFloor) {
+                const card = document.querySelector(`.slot[data-id="${slot.id}"]`);
+                if (card) {
+                    card.className = `slot ${slot.status}`;
+                    
+                    const clone = card.cloneNode(true);
+                    card.parentNode.replaceChild(clone, card);
+                    
+                    if (slot.status === 'available') {
+                        clone.addEventListener('click', () => openReserveModal(slot));
+                    }
+                }
+            }
+            
+            if (!wasAvailable && slot.floor === state.activeFloor) {
+                showToast(`Sensor Update: ${slot.id} just became available`, null);
+            }
+        }
+        
+        renderFloorTabs();
+        renderAnalytics();
+        renderBoard();
+    }
+    
+    //SIMULATOR INTERVAL
+    setInterval(simulateLiveUpdate, 5000);
+
+    
+    
+    /*INITIALIZE APPLICATION*/
+    updateFee();
+    renderAll();
+
+})();
 
 
